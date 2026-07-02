@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Venum — Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        body: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b;
+        }
+
+        /* Hero Gradient */
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(10, 10, 10, 0.5), rgba(10, 10, 10, 0.3), #0a0a0a);
+        }
+
+        /* Hero Image Overlay */
+        .hero-overlay {
+            background: linear-gradient(to right, #0a0a0a, rgba(10, 10, 10, 0.85), transparent);
+        }
+
+        /* Scroll Reveal */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-100 {
+            transition-delay: 100ms;
+        }
+
+        .reveal-delay-200 {
+            transition-delay: 200ms;
+        }
+
+        .reveal-delay-300 {
+            transition-delay: 300ms;
+        }
+
+        .reveal-delay-400 {
+            transition-delay: 400ms;
+        }
+
+        .reveal-delay-500 {
+            transition-delay: 500ms;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            width: 8px;
+            height: 8px;
+            background: #f59e0b;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.3s, height 0.3s, background 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor.hovering {
+            width: 4px;
+            height: 4px;
+        }
+
+        .cursor-follower {
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: width 0.3s, height 0.3s, border-color 0.3s, background 0.3s;
+        }
+
+        .cursor-follower.hovering {
+            width: 60px;
+            height: 60px;
+            border-color: rgba(245, 158, 11, 0.6);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        /* Liquid Skew */
+        .liquid-skew {
+            transform: skewY(-2deg);
+            transform-origin: top left;
+        }
+
+        .liquid-skew-inner {
+            transform: skewY(2deg);
+        }
+
+        /* Magnetic Button */
+        .magnetic-btn {
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Project Image Hover */
+        .project-img-wrapper img {
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s;
+        }
+
+        .project-card:hover .project-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        /* Project Info Slide */
+        .project-info {
+            transform: translateY(1rem);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .project-card:hover .project-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Skill Bar Fill */
+        .skill-fill {
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .skill-fill.is-visible {
+            width: var(--fill-width);
+        }
+
+        /* Text Glow */
+        .text-glow {
+            text-shadow: 0 0 40px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Nav link underline */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #f59e0b;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Toast */
+        .toast {
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Marquee */
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .marquee-track {
+            animation: marquee 20s linear infinite;
+        }
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        /* Floating Icons */
+        .floating-icon {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.15;
+            animation: float 10s ease-in-out infinite;
+            z-index: 5;
+        }
+
+        .floating-icon.foreground {
+            opacity: 0.6;
+            z-index: 15;
+            filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-30px) rotate(15deg);
+            }
+        }
+
+        .delay-1 {
+            animation-delay: 0s;
+            animation-duration: 12s;
+        }
+
+        .delay-2 {
+            animation-delay: -2s;
+            animation-duration: 15s;
+        }
+
+        .delay-3 {
+            animation-delay: -4s;
+            animation-duration: 18s;
+        }
+
+        .delay-4 {
+            animation-delay: -6s;
+            animation-duration: 14s;
+        }
+
+        .delay-5 {
+            animation-delay: -8s;
+            animation-duration: 16s;
+        }
+
+        /* About Image Orbit */
+        .about-image-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        .social-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 130%;
+            aspect-ratio: 1 / 1;
+            transform: translate(-50%, -50%);
+            border: 1px dashed rgba(245, 158, 11, 0.3);
+            border-radius: 50%;
+            animation: orbit-spin 20s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes orbit-spin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .orbit-item {
+            position: absolute;
+            width: 56px;
+            height: 56px;
+            background: #0a0a0a;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .orbit-item-inner {
+            display: flex;
+            animation: orbit-counter-spin 20s linear infinite;
+        }
+
+        @keyframes orbit-counter-spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(-360deg);
+            }
+        }
+
+        .orbit-item:nth-child(1) {
+            top: 0%;
+            left: 50%;
+            margin-top: -28px;
+            margin-left: -28px;
+        }
+
+        .orbit-item:nth-child(2) {
+            top: 50%;
+            right: 0%;
+            margin-top: -28px;
+            margin-right: -28px;
+        }
+
+        .orbit-item:nth-child(3) {
+            bottom: 0%;
+            left: 50%;
+            margin-bottom: -28px;
+            margin-left: -28px;
+        }
+
+        .orbit-item:nth-child(4) {
+            top: 50%;
+            left: 0%;
+            margin-top: -28px;
+            margin-left: -28px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Custom Cursor (desktop only) -->
+    <div class="custom-cursor hidden lg:block" id="cursor"></div>
+    <div class="cursor-follower hidden lg:block" id="cursorFollower"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500"
+        style="mix-blend-mode: difference;">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-20">
+            <a href="#hero" class="font-display text-2xl font-semibold tracking-tight text-white hover-target">Siva
+                Kumar</a>
+            <div class="hidden md:flex items-center gap-10">
+                <a href="#about"
+                    class="nav-link relative text-sm font-medium uppercase tracking-widest text-neutral-300 hover:text-white transition-colors hover-target">About</a>
+                <a href="#services"
+                    class="nav-link relative text-sm font-medium uppercase tracking-widest text-neutral-300 hover:text-white transition-colors hover-target">Services</a>
+                <a href="#work"
+                    class="nav-link relative text-sm font-medium uppercase tracking-widest text-neutral-300 hover:text-white transition-colors hover-target">Work</a>
+                <a href="#contact"
+                    class="nav-link relative text-sm font-medium uppercase tracking-widest text-neutral-300 hover:text-white transition-colors hover-target">Contact</a>
+            </div>
+            <button id="menuToggle" class="md:hidden flex flex-col gap-1.5 hover-target" aria-label="Menu">
+                <span class="block w-6 h-px bg-white transition-all duration-300" id="bar1"></span>
+                <span class="block w-6 h-px bg-white transition-all duration-300" id="bar2"></span>
+                <span class="block w-4 h-px bg-white transition-all duration-300 ml-auto" id="bar3"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu fixed inset-0 z-40 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center gap-8"
+        id="mobileMenu">
+        <a href="#about"
+            class="mobile-link text-3xl font-display text-white hover:text-amber-500 transition-colors">About</a>
+        <a href="#services"
+            class="mobile-link text-3xl font-display text-white hover:text-amber-500 transition-colors">Services</a>
+        <a href="#work"
+            class="mobile-link text-3xl font-display text-white hover:text-amber-500 transition-colors">Work</a>
+        <a href="#contact"
+            class="mobile-link text-3xl font-display text-white hover:text-amber-500 transition-colors">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Floating Social Media Icons -->
+        <div class="floating-icon delay-1 foreground" style="top: 20%; left: 15%;">
+            <span class="iconify text-amber-500" data-icon="lucide:instagram" data-width="48"></span>
+        </div>
+        <div class="floating-icon delay-2" style="top: 60%; left: 10%;">
+            <span class="iconify text-white" data-icon="lucide:facebook" data-width="64"></span>
+        </div>
+        <div class="floating-icon delay-3 foreground" style="top: 30%; right: 20%;">
+            <span class="iconify text-amber-500" data-icon="lucide:twitter" data-width="56"></span>
+        </div>
+        <div class="floating-icon delay-4" style="top: 70%; right: 15%;">
+            <span class="iconify text-white" data-icon="lucide:linkedin" data-width="40"></span>
+        </div>
+        <div class="floating-icon delay-5 foreground" style="top: 80%; left: 45%;">
+            <span class="iconify text-amber-500" data-icon="lucide:youtube" data-width="50"></span>
+        </div>
+
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://picsum.photos/seed/venum-hero/1920/1080.jpg" alt="Hero Background"
+                class="w-full h-full object-cover opacity-60" style="filter: grayscale(100%) contrast(125%);" />
+            <div class="hero-overlay absolute inset-0"></div>
+            <div class="hero-gradient absolute inset-0"></div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+            <p class="text-sm font-medium uppercase tracking-[0.3em] text-amber-500 mb-6 reveal-on-scroll">Social Media
+                Executive</p>
+            <h1
+                class="font-display text-5xl md:text-7xl lg:text-[96px] font-medium leading-[1.1] tracking-tight text-glow reveal-on-scroll reveal-delay-100">
+                Elevating Social<br />
+                <span class="italic text-amber-500">Presence</span>
+            </h1>
+            <p
+                class="mt-8 text-lg font-light leading-relaxed text-neutral-300 max-w-2xl mx-auto reveal-on-scroll reveal-delay-200">
+                I craft engaging content, build thriving communities, and drive brand growth through strategic social
+                media management.
+            </p>
+            <div
+                class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 reveal-on-scroll reveal-delay-300">
+                <a href="#work"
+                    class="magnetic-btn hover-target inline-flex items-center gap-2 bg-amber-500 text-black px-8 py-4 text-sm font-medium uppercase tracking-widest hover:bg-amber-400 transition-colors rounded-sm">
+                    View Work
+                    <span class="iconify" data-icon="lucide:arrow-down" data-width="16"></span>
+                </a>
+                <a href="#contact"
+                    class="magnetic-btn hover-target inline-flex items-center gap-2 border border-white/20 text-white px-8 py-4 text-sm font-medium uppercase tracking-widest hover:border-amber-500/50 hover:text-amber-500 transition-all rounded-sm">
+                    Get in Touch
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div
+            class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 reveal-on-scroll reveal-delay-500">
+            <span class="text-[10px] uppercase tracking-[0.2em] text-neutral-500">Scroll</span>
+            <div class="w-px h-12 bg-gradient-to-b from-amber-500 to-transparent animate-pulse"></div>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <section class="py-8 border-y border-white/5 overflow-hidden">
+        <div class="marquee-track flex items-center gap-12 whitespace-nowrap" style="width: max-content;">
+            <span class="text-sm uppercase tracking-[0.3em] text-neutral-600">Meta Ads</span>
+            <span class="text-amber-500/40">✦</span>
+            <span class="text-sm uppercase tracking-[0.3em] text-neutral-600">Google Ads</span>
+            <span class="text-amber-500/40">✦</span>
+            <span class="text-sm uppercase tracking-[0.3em] text-neutral-600">Photo Shop Basic</span>
+            <span class="text-amber-500/40">✦</span>
+            <span class="text-sm uppercase tracking-[0.3em] text-neutral-600">Typewriting English</span>
+            <span class="text-amber-500/40">✦</span>
+            <span class="text-sm uppercase tracking-[0.3em] text-neutral-600">Tally ERP9</span>
+            <span class="text-amber-500/40">✦</span>
+            <span class="text-sm uppercase tracking-[0.3em] text-neutral-600">Python Basic</span>
+            <span class="text-amber-500/40">✦</span>
+            <span class="text-sm uppercase tracking-[0.3em] text-neutral-600">HTML Basic</span>
+            <span class="text-amber-500/40">✦</span>
+            <span class="text-sm uppercase tracking-[0.3em] text-neutral-600">Photo Shop Basic</span>
+            <span class="text-amber-500/40">✦</span>
+            <span class="text-sm uppercase tracking-[0.3em] text-neutral-600">css</span>
+            <span class="text-amber-500/40">✦</span>
+            <span class="text-sm uppercase tracking-[0.3em] text-neutral-600">Tally ERP9</span>
+            <span class="text-amber-500/40">✦</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Image -->
+                <div class="reveal-on-scroll flex justify-center items-center py-16 lg:py-0">
+                    <div class="relative w-[280px] h-[280px] md:w-[350px] md:h-[350px]">
+                        <!-- Orbit Frame -->
+                        <div class="social-orbit" style="width: 140%; height: 140%;">
+                            <div class="orbit-item">
+                                <div class="orbit-item-inner"><span class="iconify text-amber-500"
+                                        data-icon="lucide:instagram" data-width="24"></span></div>
+                            </div>
+                            <div class="orbit-item">
+                                <div class="orbit-item-inner"><span class="iconify text-white"
+                                        data-icon="lucide:facebook" data-width="24"></span></div>
+                            </div>
+                            <div class="orbit-item">
+                                <div class="orbit-item-inner"><span class="iconify text-amber-500"
+                                        data-icon="lucide:twitter" data-width="24"></span></div>
+                            </div>
+                            <div class="orbit-item">
+                                <div class="orbit-item-inner"><span class="iconify text-white"
+                                        data-icon="lucide:linkedin" data-width="24"></span></div>
+                            </div>
+                        </div>
+
+                        <!-- Image Container -->
+                        <div
+                            class="about-image-wrapper relative overflow-hidden rounded-full w-full h-full border-4 border-neutral-800 shadow-[0_0_40px_rgba(245,158,11,0.15)]">
+                            <img src="https://picsum.photos/seed/venum-about/800/800.jpg" alt="About Venum"
+                                class="w-full h-full object-cover" style="filter: grayscale(100%) contrast(125%);" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent">
+                            </div>
+                        </div>
+
+                        <!-- Floating Badge -->
+                        <div
+                            class="absolute -bottom-8 -left-4 md:-left-12 bg-neutral-900 border border-white/5 p-5 rounded-xl shadow-2xl z-20 backdrop-blur-md">
+                            <div class="text-4xl font-display font-bold text-amber-500">05+</div>
+                            <div class="text-[10px] uppercase tracking-widest text-neutral-400 mt-1 leading-relaxed">
+                                Years of<br>Experience</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Text -->
+                <div>
+                    <p class="text-sm font-medium uppercase tracking-[0.3em] text-amber-500 mb-4 reveal-on-scroll">About
+                        Me</p>
+                    <h2
+                        class="font-display text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] reveal-on-scroll reveal-delay-100">
+                        Strategizing with <span class="italic text-amber-500">data</span>, creating with passion
+                    </h2>
+                    <p
+                        class="mt-8 text-lg font-light leading-relaxed text-neutral-300 reveal-on-scroll reveal-delay-200">
+                        I'm Siva Kumar — a Social Media Executive based in the digital world. I specialize in
+                        building high-end social media strategies, brand identities, and engaging campaigns that merge
+                        creativity
+                        with analytics.
+                    </p>
+                    <p
+                        class="mt-6 text-lg font-light leading-relaxed text-neutral-400 reveal-on-scroll reveal-delay-300">
+                        Every campaign is an opportunity to push boundaries. I believe in compelling copy, thoughtful
+                        content,
+                        and the power of storytelling through platforms. My work lives at the intersection of community
+                        and
+                        growth.
+                    </p>
+
+                    <!-- Stats -->
+                    <div class="mt-12 grid grid-cols-3 gap-8 reveal-on-scroll reveal-delay-400">
+                        <div>
+                            <span class="text-3xl font-display font-semibold text-white">50+</span>
+                            <p class="text-sm text-neutral-500 mt-1">Campaigns Launched</p>
+                        </div>
+                        <div>
+                            <span class="text-3xl font-display font-semibold text-white">10M+</span>
+                            <p class="text-sm text-neutral-500 mt-1">Total Reach</p>
+                        </div>
+                        <div>
+                            <span class="text-3xl font-display font-semibold text-white">12</span>
+                            <p class="text-sm text-neutral-500 mt-1">Brands Scaled</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </ <!-- Services Section — Social Media Executive -->
+            <section id="services" class="relative py-32 px-6 lg:px-8 overflow-hidden" style="background: #0d0d0d;">
+
+                <!-- Animated BG: floating social icons -->
+                <div class="absolute inset-0 pointer-events-none overflow-hidden" style="z-index:0;">
+                    <!-- Pulsing rings -->
+                    <div
+                        style="position:absolute;top:50%;left:50%;width:600px;height:600px;border:1px solid rgba(245,158,11,0.06);border-radius:50%;transform:translate(-50%,-50%);animation:pulse-ring 6s ease-in-out infinite;">
+                    </div>
+                    <div
+                        style="position:absolute;top:50%;left:50%;width:900px;height:900px;border:1px solid rgba(245,158,11,0.04);border-radius:50%;transform:translate(-50%,-50%);animation:pulse-ring 6s ease-in-out 2s infinite;">
+                    </div>
+                    <div
+                        style="position:absolute;top:50%;left:50%;width:1200px;height:1200px;border:1px solid rgba(245,158,11,0.02);border-radius:50%;transform:translate(-50%,-50%);animation:pulse-ring 6s ease-in-out 4s infinite;">
+                    </div>
+                    <!-- BG Icons -->
+                    <span class="iconify" data-icon="lucide:instagram" data-width="80"
+                        style="position:absolute;top:8%;left:5%;color:rgba(245,158,11,0.07);animation:float 14s ease-in-out infinite;"></span>
+                    <span class="iconify" data-icon="lucide:facebook" data-width="60"
+                        style="position:absolute;top:15%;right:8%;color:rgba(255,255,255,0.05);animation:float 18s ease-in-out -3s infinite;"></span>
+                    <span class="iconify" data-icon="lucide:youtube" data-width="90"
+                        style="position:absolute;bottom:10%;left:3%;color:rgba(245,158,11,0.06);animation:float 12s ease-in-out -6s infinite;"></span>
+                    <span class="iconify" data-icon="lucide:twitter" data-width="70"
+                        style="position:absolute;bottom:20%;right:5%;color:rgba(255,255,255,0.05);animation:float 16s ease-in-out -2s infinite;"></span>
+                    <span class="iconify" data-icon="lucide:linkedin" data-width="50"
+                        style="position:absolute;top:45%;left:1%;color:rgba(245,158,11,0.06);animation:float 20s ease-in-out -8s infinite;"></span>
+                    <span class="iconify" data-icon="lucide:bar-chart-2" data-width="65"
+                        style="position:absolute;top:5%;left:45%;color:rgba(245,158,11,0.05);animation:float 13s ease-in-out -4s infinite;"></span>
+                    <span class="iconify" data-icon="lucide:trending-up" data-width="55"
+                        style="position:absolute;bottom:5%;left:40%;color:rgba(255,255,255,0.04);animation:float 17s ease-in-out -10s infinite;"></span>
+                </div>
+
+                <style>
+                    @keyframes pulse-ring {
+
+                        0%,
+                        100% {
+                            opacity: 0.3;
+                            transform: translate(-50%, -50%) scale(1);
+                        }
+
+                        50% {
+                            opacity: 1;
+                            transform: translate(-50%, -50%) scale(1.04);
+                        }
+                    }
+
+                    @keyframes card-glow {
+
+                        0%,
+                        100% {
+                            box-shadow: 0 0 0 rgba(245, 158, 11, 0);
+                        }
+
+                        50% {
+                            box-shadow: 0 0 30px rgba(245, 158, 11, 0.15);
+                        }
+                    }
+
+                    .sm-service-card:hover {
+                        border-color: rgba(245, 158, 11, 0.4) !important;
+                        animation: card-glow 2s ease-in-out infinite;
+                        transform: translateY(-6px);
+                    }
+
+                    .sm-service-card {
+                        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                    }
+
+                    .platform-bar {
+                        height: 6px;
+                        border-radius: 9999px;
+                        background: rgba(255, 255, 255, 0.05);
+                        overflow: hidden;
+                        margin-top: 8px;
+                    }
+
+                    .platform-bar-fill {
+                        height: 100%;
+                        border-radius: 9999px;
+                        width: 0;
+                        transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+                    }
+
+                    .platform-bar-fill.is-visible {
+                        width: var(--w);
+                    }
+
+                    .metrics-ticker {
+                        display: flex;
+                        gap: 2rem;
+                        white-space: nowrap;
+                        animation: marquee 25s linear infinite;
+                    }
+                </style>
+
+                <div class="relative max-w-7xl mx-auto" style="z-index:1;">
+
+                    <!-- Heading -->
+                    <div class="text-center mb-20">
+                        <p class="text-sm font-medium uppercase tracking-[0.3em] text-amber-500 mb-4 reveal-on-scroll">
+                            What I Do</p>
+                        <h2
+                            class="font-display text-4xl md:text-5xl font-medium tracking-tight reveal-on-scroll reveal-delay-100">
+                            Social Media <span class="italic text-amber-500">Services</span>
+                        </h2>
+                        <p class="mt-4 text-neutral-500 text-sm max-w-lg mx-auto reveal-on-scroll reveal-delay-200">From
+                            content creation to paid campaigns — a full-stack social media approach that drives real
+                            results.</p>
+                    </div>
+
+                    <!-- Service Cards -->
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Card 1 -->
+                        <div class="sm-service-card group p-8 border border-white/5 rounded-xl bg-neutral-900/60 backdrop-blur-sm reveal-on-scroll"
+                            style="position:relative;overflow:hidden;">
+                            <div class="absolute -top-6 -right-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <span class="iconify" data-icon="lucide:instagram" data-width="100"></span>
+                            </div>
+                            <div
+                                class="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 text-amber-500 mb-6">
+                                <span class="iconify" data-icon="lucide:pen-tool" data-width="24"></span>
+                            </div>
+                            <h3 class="font-display text-xl font-medium mb-3">Content Creation</h3>
+                            <p class="text-sm font-light leading-relaxed text-neutral-400">Eye-catching posts, reels,
+                                stories &amp; carousels crafted to stop the scroll and spark engagement.</p>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="sm-service-card group p-8 border border-white/5 rounded-xl bg-neutral-900/60 backdrop-blur-sm reveal-on-scroll reveal-delay-100"
+                            style="position:relative;overflow:hidden;">
+                            <div class="absolute -top-6 -right-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <span class="iconify" data-icon="lucide:bar-chart-2" data-width="100"></span>
+                            </div>
+                            <div
+                                class="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 text-amber-500 mb-6">
+                                <span class="iconify" data-icon="lucide:megaphone" data-width="24"></span>
+                            </div>
+                            <h3 class="font-display text-xl font-medium mb-3">Paid Ad Campaigns</h3>
+                            <p class="text-sm font-light leading-relaxed text-neutral-400">Meta Ads &amp; Google Ads
+                                strategies with precision targeting to maximize ROI and brand reach.</p>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="sm-service-card group p-8 border border-white/5 rounded-xl bg-neutral-900/60 backdrop-blur-sm reveal-on-scroll reveal-delay-200"
+                            style="position:relative;overflow:hidden;">
+                            <div class="absolute -top-6 -right-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <span class="iconify" data-icon="lucide:users" data-width="100"></span>
+                            </div>
+                            <div
+                                class="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 text-amber-500 mb-6">
+                                <span class="iconify" data-icon="lucide:users" data-width="24"></span>
+                            </div>
+                            <h3 class="font-display text-xl font-medium mb-3">Community Management</h3>
+                            <p class="text-sm font-light leading-relaxed text-neutral-400">Building loyal communities by
+                                engaging audiences, responding to conversations &amp; nurturing brand advocates.</p>
+                        </div>
+                        <!-- Card 4 -->
+                        <div class="sm-service-card group p-8 border border-white/5 rounded-xl bg-neutral-900/60 backdrop-blur-sm reveal-on-scroll reveal-delay-300"
+                            style="position:relative;overflow:hidden;">
+                            <div class="absolute -top-6 -right-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <span class="iconify" data-icon="lucide:trending-up" data-width="100"></span>
+                            </div>
+                            <div
+                                class="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 text-amber-500 mb-6">
+                                <span class="iconify" data-icon="lucide:trending-up" data-width="24"></span>
+                            </div>
+                            <h3 class="font-display text-xl font-medium mb-3">Analytics &amp; Strategy</h3>
+                            <p class="text-sm font-light leading-relaxed text-neutral-400">Data-driven insights,
+                                performance reports &amp; growth strategies to keep your brand ahead of the curve.</p>
+                        </div>
+                    </div>
+
+                    <!-- Platform Skills -->
+                    <div class="mt-24 grid md:grid-cols-2 gap-x-20 gap-y-10 max-w-5xl mx-auto">
+                        <div class="reveal-on-scroll">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="iconify text-amber-500" data-icon="lucide:instagram"
+                                        data-width="18"></span>
+                                    <span class="text-sm font-medium text-neutral-300">Instagram &amp; Reels</span>
+                                </div>
+                                <span class="text-sm text-amber-500 font-medium">95%</span>
+                            </div>
+                            <div class="platform-bar">
+                                <div class="platform-bar-fill bg-gradient-to-r from-amber-500 to-amber-400 skill-fill"
+                                    style="--fill-width:95%;"></div>
+                            </div>
+                        </div>
+                        <div class="reveal-on-scroll reveal-delay-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="iconify text-amber-500" data-icon="lucide:facebook"
+                                        data-width="18"></span>
+                                    <span class="text-sm font-medium text-neutral-300">Facebook &amp; Meta Ads</span>
+                                </div>
+                                <span class="text-sm text-amber-500 font-medium">92%</span>
+                            </div>
+                            <div class="platform-bar">
+                                <div class="platform-bar-fill bg-gradient-to-r from-amber-500 to-amber-400 skill-fill"
+                                    style="--fill-width:92%;"></div>
+                            </div>
+                        </div>
+                        <div class="reveal-on-scroll reveal-delay-200">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="iconify text-amber-500" data-icon="lucide:youtube"
+                                        data-width="18"></span>
+                                    <span class="text-sm font-medium text-neutral-300">YouTube &amp; Video
+                                        Content</span>
+                                </div>
+                                <span class="text-sm text-amber-500 font-medium">85%</span>
+                            </div>
+                            <div class="platform-bar">
+                                <div class="platform-bar-fill bg-gradient-to-r from-amber-500 to-amber-400 skill-fill"
+                                    style="--fill-width:85%;"></div>
+                            </div>
+                        </div>
+                        <div class="reveal-on-scroll reveal-delay-300">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="iconify text-amber-500" data-icon="lucide:linkedin"
+                                        data-width="18"></span>
+                                    <span class="text-sm font-medium text-neutral-300">LinkedIn &amp; B2B Growth</span>
+                                </div>
+                                <span class="text-sm text-amber-500 font-medium">88%</span>
+                            </div>
+                            <div class="platform-bar">
+                                <div class="platform-bar-fill bg-gradient-to-r from-amber-500 to-amber-400 skill-fill"
+                                    style="--fill-width:88%;"></div>
+                            </div>
+                        </div>
+                        <div class="reveal-on-scroll">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="iconify text-amber-500" data-icon="lucide:zap" data-width="18"></span>
+                                    <span class="text-sm font-medium text-neutral-300">Google Ads &amp; SEM</span>
+                                </div>
+                                <span class="text-sm text-amber-500 font-medium">80%</span>
+                            </div>
+                            <div class="platform-bar">
+                                <div class="platform-bar-fill bg-gradient-to-r from-amber-500 to-amber-400 skill-fill"
+                                    style="--fill-width:80%;"></div>
+                            </div>
+                        </div>
+                        <div class="reveal-on-scroll reveal-delay-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="iconify text-amber-500" data-icon="lucide:image"
+                                        data-width="18"></span>
+                                    <span class="text-sm font-medium text-neutral-300">Photoshop &amp; Canva
+                                        Design</span>
+                                </div>
+                                <span class="text-sm text-amber-500 font-medium">87%</span>
+                            </div>
+                            <div class="platform-bar">
+                                <div class="platform-bar-fill bg-gradient-to-r from-amber-500 to-amber-400 skill-fill"
+                                    style="--fill-width:87%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Metrics Ticker -->
+                    <div class="mt-24 border border-white/5 rounded-xl overflow-hidden">
+                        <div class="flex items-center gap-4 px-6 py-3 bg-amber-500/5 border-b border-white/5">
+                            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse inline-block"></span>
+                            <span class="text-xs uppercase tracking-widest text-amber-500 font-medium">Live Performance
+                                Metrics</span>
+                        </div>
+                        <div class="overflow-hidden py-5 px-4">
+                            <div class="metrics-ticker">
+                                <span class="text-xs text-neutral-400 flex items-center gap-2"><span
+                                        class="iconify text-amber-500" data-icon="lucide:users" data-width="14"></span>
+                                    Followers Gained: <b class="text-white ml-1">+12.4K</b></span>
+                                <span class="text-amber-500/30">|</span>
+                                <span class="text-xs text-neutral-400 flex items-center gap-2"><span
+                                        class="iconify text-amber-500" data-icon="lucide:heart" data-width="14"></span>
+                                    Avg. Engagement: <b class="text-white ml-1">8.6%</b></span>
+                                <span class="text-amber-500/30">|</span>
+                                <span class="text-xs text-neutral-400 flex items-center gap-2"><span
+                                        class="iconify text-amber-500" data-icon="lucide:eye" data-width="14"></span>
+                                    Total Impressions: <b class="text-white ml-1">4.2M+</b></span>
+                                <span class="text-amber-500/30">|</span>
+                                <span class="text-xs text-neutral-400 flex items-center gap-2"><span
+                                        class="iconify text-amber-500" data-icon="lucide:trending-up"
+                                        data-width="14"></span> Ad ROAS: <b class="text-white ml-1">5.8x</b></span>
+                                <span class="text-amber-500/30">|</span>
+                                <span class="text-xs text-neutral-400 flex items-center gap-2"><span
+                                        class="iconify text-amber-500" data-icon="lucide:share-2"
+                                        data-width="14"></span> Viral Posts: <b class="text-white ml-1">23</b></span>
+                                <span class="text-amber-500/30">|</span>
+                                <span class="text-xs text-neutral-400 flex items-center gap-2"><span
+                                        class="iconify text-amber-500" data-icon="lucide:users" data-width="14"></span>
+                                    Followers Gained: <b class="text-white ml-1">+12.4K</b></span>
+                                <span class="text-amber-500/30">|</span>
+                                <span class="text-xs text-neutral-400 flex items-center gap-2"><span
+                                        class="iconify text-amber-500" data-icon="lucide:heart" data-width="14"></span>
+                                    Avg. Engagement: <b class="text-white ml-1">8.6%</b></span>
+                                <span class="text-amber-500/30">|</span>
+                                <span class="text-xs text-neutral-400 flex items-center gap-2"><span
+                                        class="iconify text-amber-500" data-icon="lucide:eye" data-width="14"></span>
+                                    Total Impressions: <b class="text-white ml-1">4.2M+</b></span>
+                                <span class="text-amber-500/30">|</span>
+                                <span class="text-xs text-neutral-400 flex items-center gap-2"><span
+                                        class="iconify text-amber-500" data-icon="lucide:trending-up"
+                                        data-width="14"></span> Ad ROAS: <b class="text-white ml-1">5.8x</b></span>
+                                <span class="text-amber-500/30">|</span>
+                                <span class="text-xs text-neutral-400 flex items-center gap-2"><span
+                                        class="iconify text-amber-500" data-icon="lucide:share-2"
+                                        data-width="14"></span> Viral Posts: <b class="text-white ml-1">23</b></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+
+            <!-- Work / Portfolio Section — Social Media Accounts Handled -->
+            <section id="work" class="relative py-32 px-6 lg:px-8 overflow-hidden">
+
+                <!-- Subtle animated gradient bg -->
+                <div
+                    style="position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(245,158,11,0.05) 0%, transparent 70%);">
+                </div>
+
+                <style>
+                    /* Social Media Post Card */
+                    .sm-post-card {
+                        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+                        will-change: transform;
+                    }
+
+                    .sm-post-card:hover {
+                        transform: translateY(-12px) scale(1.02);
+                        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(245, 158, 11, 0.1);
+                    }
+
+                    /* Phone Frame */
+                    .phone-frame {
+                        background: #1a1a1a;
+                        height: 300px;
+                        border-radius: 20px;
+                        border: 2px solid rgba(255, 255, 255, 0.08);
+                        overflow: hidden;
+                        position: relative;
+                    }
+
+                    /* Post image shine on hover */
+                    .post-img-wrap::after {
+                        content: '';
+                        position: absolute;
+                        inset: 0;
+                        background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+                        opacity: 0;
+                        transition: opacity 0.4s;
+                    }
+
+                    .sm-post-card:hover .post-img-wrap::after {
+                        opacity: 1;
+                    }
+
+                    /* Platform badge */
+                    .platform-badge {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 6px;
+                        padding: 4px 12px;
+                        border-radius: 9999px;
+                        font-size: 10px;
+                        font-weight: 600;
+                        letter-spacing: 0.05em;
+                        text-transform: uppercase;
+                    }
+
+                    .badge-instagram {
+                        background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+                        color: #fff;
+                    }
+
+                    .badge-facebook {
+                        background: #1877f2;
+                        color: #fff;
+                    }
+
+                    .badge-youtube {
+                        background: #ff0000;
+                        color: #fff;
+                    }
+
+                    .badge-linkedin {
+                        background: #0a66c2;
+                        color: #fff;
+                    }
+
+                    /* Stat row */
+                    .stat-row {
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        font-size: 12px;
+                        color: #a3a3a3;
+                    }
+
+                    .stat-row b {
+                        color: #fff;
+                    }
+
+                    /* Like animation */
+                    @keyframes like-pop {
+
+                        0%,
+                        100% {
+                            transform: scale(1);
+                        }
+
+                        50% {
+                            transform: scale(1.4);
+                        }
+                    }
+
+                    .sm-post-card:hover .like-icon {
+                        animation: like-pop 0.6s ease;
+                        color: #f43f5e;
+                    }
+
+                    /* Engagement bar anim */
+                    .eng-bar {
+                        height: 3px;
+                        background: rgba(255, 255, 255, 0.06);
+                        border-radius: 9999px;
+                        overflow: hidden;
+                        margin-top: 6px;
+                    }
+
+                    .eng-bar-fill {
+                        height: 100%;
+                        border-radius: 9999px;
+                        background: linear-gradient(90deg, #f59e0b, #fbbf24);
+                        width: 0;
+                        transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+                    }
+
+                    .eng-bar-fill.is-visible {
+                        width: var(--eng-w);
+                    }
+                </style>
+
+                <div class="relative max-w-7xl mx-auto" style="z-index:1;">
+
+                    <!-- Header -->
+                    <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
+                        <div>
+                            <p
+                                class="text-sm font-medium uppercase tracking-[0.3em] text-amber-500 mb-4 reveal-on-scroll">
+                                Accounts Handled</p>
+                            <h2
+                                class="font-display text-4xl md:text-5xl font-medium tracking-tight reveal-on-scroll reveal-delay-100">
+                                Social Media <span class="italic text-amber-500">Portfolio</span>
+                            </h2>
+                        </div>
+                        <p class="mt-6 md:mt-0 text-sm text-neutral-500 max-w-sm reveal-on-scroll reveal-delay-200">Real
+                            brands, real growth — a showcase of accounts managed, content created, and audiences built.
+                        </p>
+                    </div>
+
+                    <!-- Cards Grid -->
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <!-- Card 1 — Instagram Fashion -->
+                        <div class="sm-post-card reveal-on-scroll">
+                            <div class="phone-frame">
+                                <!-- Phone top bar -->
+                                <div class="flex items-center gap-3 px-4 py-3 border-b border-white/5">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-black font-bold text-xs">
+                                        ZF</div>
+                                    <div class="flex-1">
+                                        <p class="text-xs font-semibold text-white leading-none">@zara_fashion_in</p>
+                                        <p class="text-[10px] text-neutral-500 mt-0.5">Sponsored</p>
+                                    </div>
+                                    <span class="platform-badge badge-instagram"><span class="iconify"
+                                            data-icon="lucide:instagram" data-width="10"></span>IG</span>
+                                </div>
+                                <!-- Ad Image (rectangle) -->
+                                <div class="post-img-wrap relative" style="aspect-ratio:4/5;overflow:hidden;">
+                                    <img src="https://picsum.photos/seed/sm-fashion/600/750.jpg" alt="Fashion Campaign"
+                                        class="w-full h-full object-cover" style="filter:contrast(110%) saturate(1.1);">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
+                                    </div>
+                                    <!-- Ad overlay text -->
+                                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                                        <div
+                                            class="inline-block bg-amber-500 text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">
+                                            Shop Now →</div>
+                                        <p class="text-white text-xs font-medium leading-snug">New Collection Drop — Up
+                                            to 40% Off</p>
+                                    </div>
+                                </div>
+                                <!-- Stats -->
+                                <div class="px-4 py-4 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-4">
+                                            <span class="stat-row"><span class="iconify like-icon text-neutral-400"
+                                                    data-icon="lucide:heart" data-width="14"></span><b>24.8K</b></span>
+                                            <span class="stat-row"><span class="iconify text-neutral-400"
+                                                    data-icon="lucide:message-circle"
+                                                    data-width="14"></span><b>1.2K</b></span>
+                                            <span class="stat-row"><span class="iconify text-neutral-400"
+                                                    data-icon="lucide:send" data-width="14"></span><b>3.4K</b></span>
+                                        </div>
+                                        <a href="#" class="text-amber-500 hover:text-amber-400 transition-colors"><span
+                                                class="iconify" data-icon="lucide:external-link"
+                                                data-width="14"></span></a>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[10px] text-neutral-500 mb-1">
+                                            <span>Engagement Rate</span><span class="text-amber-500">8.4%</span>
+                                        </div>
+                                        <div class="eng-bar">
+                                            <div class="eng-bar-fill skill-fill" style="--fill-width:84%;--eng-w:84%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-neutral-600 uppercase tracking-widest">Reach: 2.9M ·
+                                        Impressions: 4.1M</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 — Facebook Brand -->
+                        <div class="sm-post-card reveal-on-scroll reveal-delay-100">
+                            <div class="phone-frame">
+                                <div class="flex items-center gap-3 px-4 py-3 border-b border-white/5">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xs">
+                                        TR</div>
+                                    <div class="flex-1">
+                                        <p class="text-xs font-semibold text-white leading-none">TrueRoots Organic</p>
+                                        <p class="text-[10px] text-neutral-500 mt-0.5">Paid Promotion</p>
+                                    </div>
+                                    <span class="platform-badge badge-facebook"><span class="iconify"
+                                            data-icon="lucide:facebook" data-width="10"></span>FB</span>
+                                </div>
+                                <div class="post-img-wrap relative" style="aspect-ratio:4/5;overflow:hidden;">
+                                    <img src="https://picsum.photos/seed/sm-organic/600/750.jpg" alt="Organic Brand"
+                                        class="w-full h-full object-cover" style="filter:contrast(110%) saturate(1.2);">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent">
+                                    </div>
+                                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                                        <div
+                                            class="inline-block bg-blue-500 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">
+                                            Learn More →</div>
+                                        <p class="text-white text-xs font-medium leading-snug">100% Natural — Feel the
+                                            Difference Today</p>
+                                    </div>
+                                </div>
+                                <div class="px-4 py-4 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-4">
+                                            <span class="stat-row"><span class="iconify like-icon text-neutral-400"
+                                                    data-icon="lucide:thumbs-up"
+                                                    data-width="14"></span><b>18.3K</b></span>
+                                            <span class="stat-row"><span class="iconify text-neutral-400"
+                                                    data-icon="lucide:message-circle"
+                                                    data-width="14"></span><b>872</b></span>
+                                            <span class="stat-row"><span class="iconify text-neutral-400"
+                                                    data-icon="lucide:share-2" data-width="14"></span><b>2.1K</b></span>
+                                        </div>
+                                        <a href="#" class="text-amber-500 hover:text-amber-400 transition-colors"><span
+                                                class="iconify" data-icon="lucide:external-link"
+                                                data-width="14"></span></a>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[10px] text-neutral-500 mb-1">
+                                            <span>Engagement Rate</span><span class="text-amber-500">7.1%</span>
+                                        </div>
+                                        <div class="eng-bar">
+                                            <div class="eng-bar-fill skill-fill" style="--fill-width:71%;--eng-w:71%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-neutral-600 uppercase tracking-widest">Reach: 1.8M ·
+                                        ROAS: 6.2x</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 — YouTube Channel -->
+                        <div class="sm-post-card reveal-on-scroll reveal-delay-200">
+                            <div class="phone-frame">
+                                <div class="flex items-center gap-3 px-4 py-3 border-b border-white/5">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-xs">
+                                        FS</div>
+                                    <div class="flex-1">
+                                        <p class="text-xs font-semibold text-white leading-none">FitSpace India</p>
+                                        <p class="text-[10px] text-neutral-500 mt-0.5">Channel Management</p>
+                                    </div>
+                                    <span class="platform-badge badge-youtube"><span class="iconify"
+                                            data-icon="lucide:youtube" data-width="10"></span>YT</span>
+                                </div>
+                                <div class="post-img-wrap relative" style="aspect-ratio:4/5;overflow:hidden;">
+                                    <img src="https://picsum.photos/seed/sm-fitness/600/750.jpg" alt="Fitness YouTube"
+                                        class="w-full h-full object-cover" style="filter:contrast(115%) saturate(1.1);">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+                                    </div>
+                                    <!-- Play button overlay -->
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div
+                                            class="w-14 h-14 bg-red-600/90 rounded-full flex items-center justify-center shadow-2xl">
+                                            <span class="iconify text-white" data-icon="lucide:play"
+                                                data-width="24"></span>
+                                        </div>
+                                    </div>
+                                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                                        <p class="text-white text-xs font-medium leading-snug">30-Day Fat Loss Challenge
+                                            | Week 1 Results</p>
+                                    </div>
+                                </div>
+                                <div class="px-4 py-4 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-4">
+                                            <span class="stat-row"><span class="iconify like-icon text-neutral-400"
+                                                    data-icon="lucide:eye" data-width="14"></span><b>842K</b></span>
+                                            <span class="stat-row"><span class="iconify text-neutral-400"
+                                                    data-icon="lucide:heart" data-width="14"></span><b>31K</b></span>
+                                            <span class="stat-row"><span class="iconify text-neutral-400"
+                                                    data-icon="lucide:message-circle"
+                                                    data-width="14"></span><b>4.2K</b></span>
+                                        </div>
+                                        <a href="#" class="text-amber-500 hover:text-amber-400 transition-colors"><span
+                                                class="iconify" data-icon="lucide:external-link"
+                                                data-width="14"></span></a>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[10px] text-neutral-500 mb-1">
+                                            <span>Watch-through Rate</span><span class="text-amber-500">68%</span>
+                                        </div>
+                                        <div class="eng-bar">
+                                            <div class="eng-bar-fill skill-fill" style="--fill-width:68%;--eng-w:68%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-neutral-600 uppercase tracking-widest">Subscribers: 120K
+                                        · Avg Views: 85K</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4 — LinkedIn B2B -->
+                        <div class="sm-post-card reveal-on-scroll reveal-delay-100">
+                            <div class="phone-frame">
+                                <div class="flex items-center gap-3 px-4 py-3 border-b border-white/5">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-sky-700 flex items-center justify-center text-white font-bold text-xs">
+                                        NX</div>
+                                    <div class="flex-1">
+                                        <p class="text-xs font-semibold text-white leading-none">Nexora Tech Solutions
+                                        </p>
+                                        <p class="text-[10px] text-neutral-500 mt-0.5">B2B Growth</p>
+                                    </div>
+                                    <span class="platform-badge badge-linkedin"><span class="iconify"
+                                            data-icon="lucide:linkedin" data-width="10"></span>LI</span>
+                                </div>
+                                <div class="post-img-wrap relative" style="aspect-ratio:4/5;overflow:hidden;">
+                                    <img src="https://picsum.photos/seed/sm-tech/600/750.jpg" alt="Tech B2B"
+                                        class="w-full h-full object-cover" style="filter:contrast(115%) saturate(0.9);">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+                                    </div>
+                                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                                        <div
+                                            class="inline-block bg-sky-600 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">
+                                            Connect →</div>
+                                        <p class="text-white text-xs font-medium leading-snug">AI-Powered Analytics for
+                                            Enterprise Growth</p>
+                                    </div>
+                                </div>
+                                <div class="px-4 py-4 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-4">
+                                            <span class="stat-row"><span class="iconify like-icon text-neutral-400"
+                                                    data-icon="lucide:thumbs-up"
+                                                    data-width="14"></span><b>5.6K</b></span>
+                                            <span class="stat-row"><span class="iconify text-neutral-400"
+                                                    data-icon="lucide:message-circle"
+                                                    data-width="14"></span><b>430</b></span>
+                                            <span class="stat-row"><span class="iconify text-neutral-400"
+                                                    data-icon="lucide:repeat-2" data-width="14"></span><b>890</b></span>
+                                        </div>
+                                        <a href="#" class="text-amber-500 hover:text-amber-400 transition-colors"><span
+                                                class="iconify" data-icon="lucide:external-link"
+                                                data-width="14"></span></a>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[10px] text-neutral-500 mb-1">
+                                            <span>Engagement Rate</span><span class="text-amber-500">9.2%</span>
+                                        </div>
+                                        <div class="eng-bar">
+                                            <div class="eng-bar-fill skill-fill" style="--fill-width:92%;--eng-w:92%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-neutral-600 uppercase tracking-widest">Impressions: 320K
+                                        · Leads: 148</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 5 — Instagram Reel -->
+                        <div class="sm-post-card reveal-on-scroll reveal-delay-200">
+                            <div class="phone-frame">
+                                <div class="flex items-center gap-3 px-4 py-3 border-b border-white/5">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+                                        GE</div>
+                                    <div class="flex-1">
+                                        <p class="text-xs font-semibold text-white leading-none">@glow_era_beauty</p>
+                                        <p class="text-[10px] text-neutral-500 mt-0.5">Reel Campaign</p>
+                                    </div>
+                                    <span class="platform-badge badge-instagram"><span class="iconify"
+                                            data-icon="lucide:instagram" data-width="10"></span>REEL</span>
+                                </div>
+                                <div class="post-img-wrap relative" style="aspect-ratio:4/5;overflow:hidden;">
+                                    <img src="https://picsum.photos/seed/sm-beauty/600/750.jpg" alt="Beauty Reel"
+                                        class="w-full h-full object-cover" style="filter:contrast(110%) saturate(1.3);">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+                                    </div>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <div
+                                            class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
+                                            <span class="iconify text-white" data-icon="lucide:play"
+                                                data-width="20"></span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="absolute top-3 right-3 bg-black/50 backdrop-blur-sm text-white text-[10px] px-2 py-1 rounded-full flex items-center gap-1">
+                                        <span class="iconify" data-icon="lucide:video" data-width="10"></span> Reel
+                                    </div>
+                                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                                        <p class="text-white text-xs font-medium leading-snug">✨ 5 Skincare Secrets
+                                            Nobody Tells You #GlowUp</p>
+                                    </div>
+                                </div>
+                                <div class="px-4 py-4 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-4">
+                                            <span class="stat-row"><span class="iconify like-icon text-neutral-400"
+                                                    data-icon="lucide:heart" data-width="14"></span><b>67K</b></span>
+                                            <span class="stat-row"><span class="iconify text-neutral-400"
+                                                    data-icon="lucide:message-circle"
+                                                    data-width="14"></span><b>3.8K</b></span>
+                                            <span class="stat-row"><span class="iconify text-neutral-400"
+                                                    data-icon="lucide:eye" data-width="14"></span><b>1.2M</b></span>
+                                        </div>
+                                        <a href="#" class="text-amber-500 hover:text-amber-400 transition-colors"><span
+                                                class="iconify" data-icon="lucide:external-link"
+                                                data-width="14"></span></a>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[10px] text-neutral-500 mb-1"><span>Reel
+                                                Reach</span><span class="text-amber-500">Viral 🔥</span></div>
+                                        <div class="eng-bar">
+                                            <div class="eng-bar-fill skill-fill"
+                                                style="--fill-width:96%;--eng-w:96%;background:linear-gradient(90deg,#ec4899,#a855f7);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-neutral-600 uppercase tracking-widest">Views: 1.2M ·
+                                        Saves: 22K</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 6 — Meta Ad Campaign -->
+                        <div class="sm-post-card reveal-on-scroll reveal-delay-300">
+                            <div class="phone-frame">
+                                <div class="flex items-center gap-3 px-4 py-3 border-b border-white/5">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-amber-600 flex items-center justify-center text-black font-bold text-xs">
+                                        CM</div>
+                                    <div class="flex-1">
+                                        <p class="text-xs font-semibold text-white leading-none">CraftMart Store</p>
+                                        <p class="text-[10px] text-neutral-500 mt-0.5">Meta Ad — Conversion</p>
+                                    </div>
+                                    <span class="platform-badge badge-facebook"><span class="iconify"
+                                            data-icon="lucide:facebook" data-width="10"></span>AD</span>
+                                </div>
+                                <div class="post-img-wrap relative" style="aspect-ratio:4/5;overflow:hidden;">
+                                    <img src="https://picsum.photos/seed/sm-craft/600/750.jpg" alt="Craft Store Ad"
+                                        class="w-full h-full object-cover" style="filter:contrast(110%) saturate(1.1);">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+                                    </div>
+                                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                                        <div
+                                            class="inline-block bg-amber-500 text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">
+                                            Buy Now →</div>
+                                        <p class="text-white text-xs font-medium leading-snug">Handmade with Love — Free
+                                            Delivery Over ₹499</p>
+                                    </div>
+                                </div>
+                                <div class="px-4 py-4 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-4">
+                                            <span class="stat-row"><span class="iconify like-icon text-neutral-400"
+                                                    data-icon="lucide:mouse-pointer-click"
+                                                    data-width="14"></span><b>9.4K</b></span>
+                                            <span class="stat-row"><span class="iconify text-neutral-400"
+                                                    data-icon="lucide:shopping-cart"
+                                                    data-width="14"></span><b>1.1K</b></span>
+                                            <span class="stat-row"><span class="iconify text-neutral-400"
+                                                    data-icon="lucide:indian-rupee"
+                                                    data-width="14"></span><b>4.8L</b></span>
+                                        </div>
+                                        <a href="#" class="text-amber-500 hover:text-amber-400 transition-colors"><span
+                                                class="iconify" data-icon="lucide:external-link"
+                                                data-width="14"></span></a>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[10px] text-neutral-500 mb-1"><span>Ad
+                                                ROAS</span><span class="text-amber-500">7.3x</span></div>
+                                        <div class="eng-bar">
+                                            <div class="eng-bar-fill skill-fill" style="--fill-width:88%;--eng-w:88%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-neutral-600 uppercase tracking-widest">CPC: ₹3.2 · CTR:
+                                        4.8% · Conv: 11.2%</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+
+            <!-- Testimonials -->
+            <!-- <section class="py-32 px-6 lg:px-8 border-t border-white/5">
+                <div class="max-w-5xl mx-auto">
+                    <div class="text-center mb-16">
+                        <p class="text-sm font-medium uppercase tracking-[0.3em] text-amber-500 mb-4 reveal-on-scroll">
+                            Testimonials</p>
+                        <h2
+                            class="font-display text-4xl md:text-5xl font-medium tracking-tight reveal-on-scroll reveal-delay-100">
+                            What Clients <span class="italic text-amber-500">Say</span>
+                        </h2>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="p-8 border border-white/5 rounded-sm reveal-on-scroll">
+                            <span class="iconify text-amber-500/30 mb-6" data-icon="lucide:quote"
+                                data-width="32"></span>
+                            <p class="text-lg font-light leading-relaxed text-neutral-300">"Venum delivered beyond
+                                expectations.
+                                The website he built for us isn't just beautiful — it performs. Our conversions
+                                increased by 40%
+                                in the first month."</p>
+                            <div class="mt-8 flex items-center gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500 text-sm font-medium">
+                                    SL</div>
+                                <div>
+                                    <p class="text-sm font-medium text-white">Sarah Laurent</p>
+                                    <p class="text-xs text-neutral-500">CEO, Lumière Studio</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-8 border border-white/5 rounded-sm reveal-on-scroll reveal-delay-100">
+                            <span class="iconify text-amber-500/30 mb-6" data-icon="lucide:quote"
+                                data-width="32"></span>
+                            <p class="text-lg font-light leading-relaxed text-neutral-300">"Working with Venum felt like
+                                a true
+                                partnership. He understood our vision from day one and translated it into an experience
+                                that our
+                                customers love."</p>
+                            <div class="mt-8 flex items-center gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500 text-sm font-medium">
+                                    MK</div>
+                                <div>
+                                    <p class="text-sm font-medium text-white">Marcus Klein</p>
+                                    <p class="text-xs text-neutral-500">Founder, Noir Fashion</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section> -->
+
+            <!-- Contact Section -->
+            <section id="contact" class="relative py-32 px-6 lg:px-8 overflow-hidden">
+                <!-- Decorative Blur -->
+                <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-3xl pointer-events-none">
+                </div>
+
+                <div class="relative max-w-5xl mx-auto">
+                    <div class="text-center mb-16">
+                        <p class="text-sm font-medium uppercase tracking-[0.3em] text-amber-500 mb-4 reveal-on-scroll">
+                            Get in
+                            Touch</p>
+                        <h2
+                            class="font-display text-4xl md:text-5xl font-medium tracking-tight reveal-on-scroll reveal-delay-100">
+                            Let's Build Something <span class="italic text-amber-500">Great</span>
+                        </h2>
+                        <p
+                            class="mt-6 text-lg font-light leading-relaxed text-neutral-400 max-w-2xl mx-auto reveal-on-scroll reveal-delay-200">
+                            Have a project in mind? I'd love to hear about it. Drop me a message and let's explore how
+                            we can
+                            bring your vision to life.
+                        </p>
+                    </div>
+
+                    <div class="grid lg:grid-cols-5 gap-12">
+                        <!-- Contact Info -->
+                        <div class="lg:col-span-2 space-y-8 reveal-on-scroll">
+                            <div>
+                                <p class="text-xs uppercase tracking-widest text-neutral-500 mb-2">Email</p>
+                                <a href="mailto:hello@venum.dev"
+                                    class="text-lg text-white hover:text-amber-500 transition-colors hover-target">hello@venum.dev</a>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-widest text-neutral-500 mb-2">Location</p>
+                                <p class="text-lg text-neutral-300">Remote — Worldwide</p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-widest text-neutral-500 mb-3">Follow</p>
+                                <div class="flex gap-4">
+                                    <a href="#"
+                                        class="w-10 h-10 flex items-center justify-center border border-white/10 rounded-sm text-neutral-400 hover:border-amber-500/50 hover:text-amber-500 transition-all hover-target">
+                                        <span class="iconify" data-icon="lucide:twitter" data-width="16"></span>
+                                    </a>
+                                    <a href="#"
+                                        class="w-10 h-10 flex items-center justify-center border border-white/10 rounded-sm text-neutral-400 hover:border-amber-500/50 hover:text-amber-500 transition-all hover-target">
+                                        <span class="iconify" data-icon="lucide:instagram" data-width="16"></span>
+                                    </a>
+                                    <a href="#"
+                                        class="w-10 h-10 flex items-center justify-center border border-white/10 rounded-sm text-neutral-400 hover:border-amber-500/50 hover:text-amber-500 transition-all hover-target">
+                                        <span class="iconify" data-icon="lucide:linkedin" data-width="16"></span>
+                                    </a>
+                                    <a href="#"
+                                        class="w-10 h-10 flex items-center justify-center border border-white/10 rounded-sm text-neutral-400 hover:border-amber-500/50 hover:text-amber-500 transition-all hover-target">
+                                        <span class="iconify" data-icon="lucide:github" data-width="16"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Form -->
+                        <form id="contactForm" class="lg:col-span-3 space-y-6 reveal-on-scroll reveal-delay-200">
+                            <div class="grid sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label
+                                        class="text-xs uppercase tracking-widest text-neutral-500 mb-2 block">Name</label>
+                                    <input type="text" name="name" required placeholder="Your name"
+                                        class="w-full bg-transparent border border-white/10 rounded-sm px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-amber-500/50 transition-colors" />
+                                </div>
+                                <div>
+                                    <label
+                                        class="text-xs uppercase tracking-widest text-neutral-500 mb-2 block">Email</label>
+                                    <input type="email" name="email" required placeholder="you@email.com"
+                                        class="w-full bg-transparent border border-white/10 rounded-sm px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-amber-500/50 transition-colors" />
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="text-xs uppercase tracking-widest text-neutral-500 mb-2 block">Subject</label>
+                                <input type="text" name="subject" placeholder="Project inquiry"
+                                    class="w-full bg-transparent border border-white/10 rounded-sm px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-amber-500/50 transition-colors" />
+                            </div>
+                            <div>
+                                <label
+                                    class="text-xs uppercase tracking-widest text-neutral-500 mb-2 block">Message</label>
+                                <textarea name="message" rows="5" required placeholder="Tell me about your project..."
+                                    class="w-full bg-transparent border border-white/10 rounded-sm px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-amber-500/50 transition-colors resize-none"></textarea>
+                            </div>
+                            <button type="submit"
+                                class="magnetic-btn hover-target inline-flex items-center gap-2 bg-amber-500 text-black px-8 py-4 text-sm font-medium uppercase tracking-widest hover:bg-amber-400 transition-colors rounded-sm w-full sm:w-auto justify-center">
+                                Send Message
+                                <span class="iconify" data-icon="lucide:send" data-width="14"></span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="border-t border-white/5 py-12 px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="flex items-center gap-2">
+                        <span class="font-display text-xl font-semibold text-white">Venum</span>
+                        <span class="text-neutral-600">·</span>
+                        <span class="text-sm text-neutral-500">Creative Developer</span>
+                    </div>
+                    <p class="text-sm text-neutral-600">© 2025 Venum. All rights reserved.</p>
+                    <a href="#hero"
+                        class="w-10 h-10 flex items-center justify-center border border-white/10 rounded-sm text-neutral-400 hover:border-amber-500/50 hover:text-amber-500 transition-all hover-target">
+                        <span class="iconify" data-icon="lucide:arrow-up" data-width="16"></span>
+                    </a>
+                </div>
+            </footer>
+
+            <!-- Toast Notification -->
+            <div id="toast"
+                class="toast fixed bottom-8 right-8 bg-neutral-900 border border-amber-500/30 text-white px-6 py-4 rounded-sm flex items-center gap-3 z-50 shadow-2xl">
+                <span class="iconify text-amber-500" data-icon="lucide:check-circle" data-width="20"></span>
+                <span id="toastMsg" class="text-sm">Message sent successfully!</span>
+            </div>
+
+            <script>
+                // ── Custom Cursor ──
+                const cursor = document.getElementById('cursor');
+                const follower = document.getElementById('cursorFollower');
+                let mouseX = 0, mouseY = 0, followerX = 0, followerY = 0;
+
+                if (window.innerWidth >= 1024) {
+                    document.addEventListener('mousemove', e => {
+                        mouseX = e.clientX;
+                        mouseY = e.clientY;
+                        cursor.style.left = mouseX - 4 + 'px';
+                        cursor.style.top = mouseY - 4 + 'px';
+                    });
+
+                    function animateFollower() {
+                        followerX += (mouseX - followerX) * 0.15;
+                        followerY += (mouseY - followerY) * 0.15;
+                        follower.style.left = followerX - 16 + 'px';
+                        follower.style.top = followerY - 16 + 'px';
+                        requestAnimationFrame(animateFollower);
+                    }
+                    animateFollower();
+
+                    document.querySelectorAll('.hover-target').forEach(el => {
+                        el.addEventListener('mouseenter', () => {
+                            cursor.classList.add('hovering');
+                            follower.classList.add('hovering');
+                            follower.style.left = followerX - 30 + 'px';
+                            follower.style.top = followerY - 30 + 'px';
+                        });
+                        el.addEventListener('mouseleave', () => {
+                            cursor.classList.remove('hovering');
+                            follower.classList.remove('hovering');
+                        });
+                    });
+                }
+
+                // ── Scroll Reveal ──
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                        }
+                    });
+                }, { threshold: 0.1, rootMargin: '0px' });
+
+                document.querySelectorAll('.reveal-on-scroll, .skill-fill').forEach(el => observer.observe(el));
+
+                // ── Mobile Menu ──
+                const menuToggle = document.getElementById('menuToggle');
+                const mobileMenu = document.getElementById('mobileMenu');
+                const bar1 = document.getElementById('bar1');
+                const bar2 = document.getElementById('bar2');
+                const bar3 = document.getElementById('bar3');
+                let menuOpen = false;
+
+                menuToggle.addEventListener('click', () => {
+                    menuOpen = !menuOpen;
+                    mobileMenu.classList.toggle('open');
+                    if (menuOpen) {
+                        bar1.style.transform = 'rotate(45deg) translate(4px, 4px)';
+                        bar2.style.opacity = '0';
+                        bar3.style.transform = 'rotate(-45deg) translate(3px, -3px)';
+                        bar3.style.width = '24px';
+                        bar3.style.marginLeft = '0';
+                    } else {
+                        bar1.style.transform = '';
+                        bar2.style.opacity = '1';
+                        bar3.style.transform = '';
+                        bar3.style.width = '16px';
+                        bar3.style.marginLeft = 'auto';
+                    }
+                });
+
+                document.querySelectorAll('.mobile-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        menuOpen = false;
+                        mobileMenu.classList.remove('open');
+                        bar1.style.transform = '';
+                        bar2.style.opacity = '1';
+                        bar3.style.transform = '';
+                        bar3.style.width = '16px';
+                        bar3.style.marginLeft = 'auto';
+                    });
+                });
+
+                // ── Magnetic Button Effect ──
+                document.querySelectorAll('.magnetic-btn').forEach(btn => {
+                    btn.addEventListener('mousemove', e => {
+                        const rect = btn.getBoundingClientRect();
+                        const x = e.clientX - rect.left - rect.width / 2;
+                        const y = e.clientY - rect.top - rect.height / 2;
+                        btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+                    });
+                    btn.addEventListener('mouseleave', () => {
+                        btn.style.transform = 'translate(0, 0)';
+                    });
+                });
+
+                // ── Contact Form ──
+                const contactForm = document.getElementById('contactForm');
+                const toast = document.getElementById('toast');
+                const toastMsg = document.getElementById('toastMsg');
+
+                contactForm.addEventListener('submit', e => {
+                    e.preventDefault();
+                    const name = contactForm.querySelector('[name="name"]').value.trim();
+                    const email = contactForm.querySelector('[name="email"]').value.trim();
+                    const message = contactForm.querySelector('[name="message"]').value.trim();
+
+                    if (!name || !email || !message) {
+                        showToast('Please fill in all required fields.', false);
+                        return;
+                    }
+
+                    // Simulate send
+                    const btn = contactForm.querySelector('button[type="submit"]');
+                    btn.innerHTML = '<span class="iconify animate-spin" data-icon="lucide:loader-2" data-width="14"></span> Sending...';
+                    btn.disabled = true;
+
+                    setTimeout(() => {
+                        showToast(`Thanks ${name}! Your message has been sent.`, true);
+                        contactForm.reset();
+                        btn.innerHTML = 'Send Message <span class="iconify" data-icon="lucide:send" data-width="14"></span>';
+                        btn.disabled = false;
+                    }, 1500);
+                });
+
+                function showToast(msg, success) {
+                    toastMsg.textContent = msg;
+                    const icon = toast.querySelector('.iconify');
+                    if (success) {
+                        icon.setAttribute('data-icon', 'lucide:check-circle');
+                        icon.className = 'iconify text-amber-500';
+                        toast.style.borderColor = 'rgba(245,158,11,0.3)';
+                    } else {
+                        icon.setAttribute('data-icon', 'lucide:alert-circle');
+                        icon.className = 'iconify text-red-400';
+                        toast.style.borderColor = 'rgba(248,113,113,0.3)';
+                    }
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 4000);
+                }
+
+                // ── Navbar Background on Scroll ──
+                const navbar = document.getElementById('navbar');
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 100) {
+                        navbar.style.mixBlendMode = 'normal';
+                        navbar.style.background = 'rgba(10,10,10,0.9)';
+                        navbar.style.backdropFilter = 'blur(12px)';
+                    } else {
+                        navbar.style.mixBlendMode = 'difference';
+                        navbar.style.background = 'transparent';
+                        navbar.style.backdropFilter = 'none';
+                    }
+                });
+            </script>
+</body>
+
+</html>
